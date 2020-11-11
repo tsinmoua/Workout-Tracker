@@ -16,46 +16,7 @@ module.exports = function (app) {
     app.post("/api/workouts", (req, res) => {
         console.log(req.body);
 
-        db.Workout.insertMany(
-            {
-                day: req.body.date,
-                exercises: [
-                    req.body
-                ]
-            }, (error, data) => {
-                if (error) {
-                    res.send(error);
-                } else {
-                    res.send(data);
-                }
-            });
-    });
-    
-    app.put("/api/workouts/:id", (req, res) => {
-        db.Workout.updateOne(
-            {
-                _id: mongoose.Types.ObjectId(req.params.id)
-            },
-            {
-                $set: {
-                    day: req.body.day,
-                    exercises: [
-                        req.body
-                    ]
-                }
-            },
-            (error, data) => {
-                if (error) {
-                    res.send(error);
-                } else {
-                    res.send(data);
-                }
-            }
-        );
-    });
-
-    app.get("/api/workouts/range", (req, res) => {
-        db.Workout.find({})
+        db.Workout.create({})
             .then(dbWorkout => {
                 res.json(dbWorkout);
             })
@@ -63,5 +24,33 @@ module.exports = function (app) {
                 res.json(err);
             });
     });
+
+    app.put("/api/workouts/:id", (req, res) => {
+        console.log(mongoose.Types.ObjectId(req.params.id));
+        console.log(req.body);
+
+        db.Workout.updateOne(
+            { _id: mongoose.Types.ObjectId(req.params.id) },
+            { $push: { exercises: [req.body] } },
+            // { new: true },
+            (error, data) => {
+                if (error) res.send(error);
+                else res.send(data);
+            }
+        );
+    });
+
+    app.get("/api/workouts/range", function (req, res) {
+        console.log(mongoose.Types.ObjectId(req.params.id));
+        
+        db.Workout.find({ _id: mongoose.Types.ObjectId(req.body.id) })
+            .then(dbWorkout => {
+                res.json(dbWorkout);
+            })
+            .catch(err => {
+                res.json(err);
+            });
+    });
+
 
 }
