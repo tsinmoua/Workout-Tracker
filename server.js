@@ -17,19 +17,9 @@ app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workouttracker", { useNewUrlParser: true });
 
-app.post("/submit", ({ body }, res) => {
-  const user = new User(body);
-//   user.coolifier();
-//   user.makeCool();
+require("./routes/html-routes.js")(app);
+// require("./routes/api-routes.js")(app);
 
-  User.create(user)
-    .then(dbUser => {
-      res.json(dbUser);
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
 
 app.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}`);
