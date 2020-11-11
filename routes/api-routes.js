@@ -13,24 +13,34 @@ module.exports = function (app) {
             });
     });
 
-    app.put("/api/workouts/:id", (req, res) => {
-        db.Workout.update(
+    app.post("/api/workouts", (req, res) => {
+        console.log(req.body);
+
+        db.Workout.insertMany(
             {
-                _id: mongoose.ObjectId(req.params.id)
+                day: req.body.date,
+                exercises: [
+                    req.body
+                ]
+            }, (error, data) => {
+                if (error) {
+                    res.send(error);
+                } else {
+                    res.send(data);
+                }
+            });
+    });
+    
+    app.put("/api/workouts/:id", (req, res) => {
+        db.Workout.updateOne(
+            {
+                _id: mongoose.Types.ObjectId(req.params.id)
             },
             {
                 $set: {
                     day: req.body.day,
                     exercises: [
-                        {
-                            type: req.body.type,
-                            name: req.body.name,
-                            duration: req.body.duration,
-                            weight: req.body.weight,
-                            reps: req.body.reps,
-                            sets: req.body.sets,
-                            distance: req.body.distance,
-                        }
+                        req.body
                     ]
                 }
             },
@@ -42,18 +52,6 @@ module.exports = function (app) {
                 }
             }
         );
-    });
-
-    app.post("/api/workouts", (req, res) => {
-        console.log(req.body);
-
-        db.Workout.insertMany(req.body, (error, data) => {
-            if (error) {
-                res.send(error);
-            } else {
-                res.send(data);
-            }
-        });
     });
 
     app.get("/api/workouts/range", (req, res) => {
