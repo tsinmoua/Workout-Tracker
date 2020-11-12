@@ -29,13 +29,6 @@ npm i
 ```
 <!-- What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running. -->
 
-## Test Instructions
-To test, run the following in your command line:
-```
-N/A
-```
-<!-- Go the extra mile and write tests for your application. Then provide examples on how to run them. -->
-
 ## Usage Information
 If using [Heroku](https://shrouded-temple-07479.herokuapp.com/), just start creating new workouts. If not, use the following in your command line:
 ```
