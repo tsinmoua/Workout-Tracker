@@ -15,7 +15,6 @@ A place to log your workouts for each day, letting you add to your workout or cr
 ## Table of Contents
 
 * [Installation](#installation)
-* [Test Instructions](#test%20instructions)
 * [Usage Information](#usage%20information)
 * [Contributions](#contributions)
 * [License](#license)
