@@ -32,16 +32,13 @@ module.exports = function (app) {
         db.Workout.updateOne(
             { _id: mongoose.Types.ObjectId(req.params.id) },
             { $push: { exercises: [req.body] } },
-            { new: true },
-            (error, data) => {
-                if (error) res.send(error);
-                else res.send(data);
-            }
+            { new: true }
         ).then(dbWorkout => {
             res.json(dbWorkout);
         }).catch(err => {
             res.json(err);
         });
+
     });
 
     app.get("/api/workouts/range", (req, res) => {
